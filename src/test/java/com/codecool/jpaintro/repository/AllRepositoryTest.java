@@ -1,5 +1,6 @@
 package com.codecool.jpaintro.repository;
 
+import com.codecool.jpaintro.entity.Address;
 import com.codecool.jpaintro.entity.Student;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,9 @@ public class AllRepositoryTest {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -84,5 +88,28 @@ public class AllRepositoryTest {
         List<Student> students = studentRepository.findAll();
         assertThat(students).allMatch(student1 -> student1.getAge() == 0L);
     }
+
+    @Test
+    public void addressIsPersistedWithStudent() {
+        Address address = Address.builder()
+                .country("Hungary")
+                .city("Budapest")
+                .address("Nagymezo street 44")
+                .zipCode(1065)
+                .build();
+
+        Student student = Student.builder()
+                .email("temp@codecool.com")
+                .address(address)
+                .build();
+
+        studentRepository.save(student);
+
+        List<Address> addresses = addressRepository.findAll();
+        assertThat(addresses)
+                .hasSize(1)
+                .allMatch(address1 -> address1.getId() > 0L);
+    }
+
 
 }
