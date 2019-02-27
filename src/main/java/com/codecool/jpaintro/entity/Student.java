@@ -30,7 +30,7 @@ public class Student {
     @Transient
     private long age;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
     public void calculateAge() {
