@@ -30,6 +30,9 @@ public class Student {
     @Transient
     private long age;
 
+    @OneToOne
+    private Address address;
+
     public void calculateAge() {
         if (birthDate != null) {
             age = ChronoUnit.YEARS.between(birthDate, LocalDate.now());
