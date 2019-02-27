@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,7 +42,7 @@ public class AllRepositoryTest {
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void saveUniqueFieldTwice(){
+    public void saveUniqueFieldTwice() {
         Student student = Student.builder()
                 .email("john@codecool.com")
                 .name("John")
@@ -58,13 +59,30 @@ public class AllRepositoryTest {
     }
 
     @Test(expected = DataIntegrityViolationException.class)
-    public void emailShouldBeNotNull(){
+    public void emailShouldBeNotNull() {
         Student student = Student.builder()
                 .name("John")
                 .build();
 
         studentRepository.save(student);
 
+    }
+
+    @Test
+    public void trasientIsNotSaved() {
+        Student student = Student.builder()
+                .birthDate(LocalDate.of(1987, 2, 12))
+                .email("john@codecool.com")
+                .name("John")
+                .build();
+        student.calculateAge();
+        assertThat(student.getAge()).isGreaterThanOrEqualTo(31);
+
+        studentRepository.save(student);
+        entityManager.clear();
+
+        List<Student> students = studentRepository.findAll();
+        assertThat(students).allMatch(student1 -> student1.getAge() == 0L);
     }
 
 }
