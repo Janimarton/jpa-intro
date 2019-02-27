@@ -1,4 +1,4 @@
-package com.codecool.jpaintro;
+package com.codecool.jpaintro.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 @Builder
 @Entity
 public class Student {
-
 
 
 }
