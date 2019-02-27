@@ -57,4 +57,14 @@ public class AllRepositoryTest {
         studentRepository.saveAndFlush(student2);
     }
 
+    @Test(expected = DataIntegrityViolationException.class)
+    public void emailShouldBeNotNull(){
+        Student student = Student.builder()
+                .name("John")
+                .build();
+
+        studentRepository.save(student);
+
+    }
+
 }
