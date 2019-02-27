@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Data
 @NoArgsConstructor
@@ -14,5 +16,8 @@ import javax.persistence.Entity;
 @Entity
 public class Student {
 
+    @Id
+    @GeneratedValue
+    private Long id;
 
 }
