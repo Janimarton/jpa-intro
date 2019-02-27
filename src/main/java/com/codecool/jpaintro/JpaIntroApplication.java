@@ -30,6 +30,7 @@ public class JpaIntroApplication {
                     .name("John")
                     .birthDate(LocalDate.of(1980, 3, 5))
                     .build();
+            john.calculateAge();
 
             studentRepository.save(john);
 

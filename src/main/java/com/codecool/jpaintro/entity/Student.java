@@ -5,11 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Data
 @NoArgsConstructor
@@ -24,11 +22,18 @@ public class Student {
 
     private String name;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private LocalDate birthDate;
 
+    @Transient
     private long age;
+
+    public void calculateAge() {
+        if (birthDate != null) {
+            age = ChronoUnit.YEARS.between(birthDate, LocalDate.now());
+        }
+    }
 
 }
