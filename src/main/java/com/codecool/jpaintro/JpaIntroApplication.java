@@ -36,6 +36,9 @@ public class JpaIntroApplication {
                     .name("John")
                     .birthDate(LocalDate.of(1980, 3, 5))
                     .address(Address.builder().city("Miskolc").country("Hungary").build())
+                    .phoneNumber("555-6666")
+                    .phoneNumber("555-7777")
+                    .phoneNumber("555-8888")
                     .build();
             john.calculateAge();
 
