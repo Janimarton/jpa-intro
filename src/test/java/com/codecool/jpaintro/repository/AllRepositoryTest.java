@@ -183,5 +183,34 @@ public class AllRepositoryTest {
 
     }
 
+    @Test
+    public void findAllCountry() {
+        Student first = Student.builder()
+                .email("first@codecool.com")
+                .address(Address.builder().country("Hungary").build())
+                .build();
+        Student second = Student.builder()
+                .email("second@codecool.com")
+                .address(Address.builder().country("Poland").build())
+                .build();
+        Student third = Student.builder()
+                .email("third@codecool.com")
+                .address(Address.builder().country("Poland").build())
+                .build();
+        Student fourth = Student.builder()
+                .email("fourth@codecool.com")
+                .address(Address.builder().country("Hungary").build())
+                .build();
+
+        studentRepository.saveAll(Lists.newArrayList(first, second, third, fourth));
+
+        List<String> allCountry = studentRepository.findAllCountry();
+
+        assertThat(allCountry)
+                .hasSize(2)
+                .containsOnlyOnce("Poland", "Hungary");
+
+    }
+
 
 }
