@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class JpaIntroApplication {
@@ -64,8 +65,7 @@ public class JpaIntroApplication {
                     .email("john@codecool.com")
                     .birthDate(LocalDate.of(1987, 2, 12))
                     .address(address)
-                    .phoneNumber("555-5432")
-                    .phoneNumber("555-1234")
+                    .phoneNumbers(Arrays.asList("555-5432", "555-1234"))
                     .build();
 
             Student barbara = Student.builder()
@@ -73,8 +73,7 @@ public class JpaIntroApplication {
                     .email("barb@codecool.com")
                     .birthDate(LocalDate.of(1985, 3, 20))
                     .address(address2)
-                    .phoneNumber("123-4567")
-                    .phoneNumber("987-6543")
+                    .phoneNumbers(Arrays.asList("123-4567", "987-6543"))
                     .build();
 
             School school = School.builder()
