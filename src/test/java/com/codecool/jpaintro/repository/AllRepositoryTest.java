@@ -1,6 +1,8 @@
 package com.codecool.jpaintro.repository;
 
 import com.codecool.jpaintro.entity.Address;
+import com.codecool.jpaintro.entity.Location;
+import com.codecool.jpaintro.entity.School;
 import com.codecool.jpaintro.entity.Student;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,6 +35,9 @@ public class AllRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
+
+    @Autowired
+    private SchoolRepository schoolRepository;
 
     @Test
     public void saveOneSimple() {
@@ -109,6 +117,28 @@ public class AllRepositoryTest {
         assertThat(addresses)
                 .hasSize(1)
                 .allMatch(address1 -> address1.getId() > 0L);
+    }
+
+    @Test
+    public void studentsArePersistedAndDeletedWithNewSchool() {
+        Set<Student> students = IntStream.range(1, 10)
+                .boxed()
+                .map(integer -> Student.builder().email("student" + integer + "@codecool.com").build())
+                .collect(Collectors.toSet());
+
+        School school = School.builder()
+                .students(students)
+                .location(Location.BUDAPEST)
+                .build();
+
+        schoolRepository.save(school);
+
+        assertThat(studentRepository.findAll())
+                .hasSize(9)
+                .anyMatch(student -> student.getEmail().equals("student9@codecool.com"));
+
+        assertThat(studentRepository.findAll())
+                .hasSize(0);
     }
 
 
