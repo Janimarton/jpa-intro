@@ -4,6 +4,7 @@ import com.codecool.jpaintro.entity.Address;
 import com.codecool.jpaintro.entity.Location;
 import com.codecool.jpaintro.entity.School;
 import com.codecool.jpaintro.entity.Student;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +143,44 @@ public class AllRepositoryTest {
 
         assertThat(studentRepository.findAll())
                 .hasSize(0);
+    }
+
+    @Test
+    public void findByNameStartingWithOrBirthDateBetween() {
+        Student john = Student.builder()
+                .email("john@codecool.com")
+                .name("John")
+                .build();
+
+        Student jane = Student.builder()
+                .email("jane@codecool.com")
+                .name("Jane")
+                .build();
+
+        Student martha = Student.builder()
+                .email("martha@codecool.com")
+                .name("Martha")
+                .build();
+
+        Student peter = Student.builder()
+                .email("peter@codecool.com")
+                .birthDate(LocalDate.of(2010, 10, 3))
+                .build();
+
+        Student steve = Student.builder()
+                .email("steve@codecool.com")
+                .birthDate(LocalDate.of(2011, 12, 5))
+                .build();
+
+        studentRepository.saveAll(Lists.newArrayList(john, jane, martha, peter, steve));
+
+        List<Student> filteredStudents = studentRepository.findByNameStartingWithOrBirthDateBetween("J",
+                LocalDate.of(2009, 1, 1), LocalDate.of(2011, 1, 1));
+
+        assertThat(filteredStudents)
+                .containsExactlyInAnyOrder(john, jane, peter);
+
+
     }
 
 
