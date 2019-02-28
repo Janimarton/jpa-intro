@@ -137,6 +137,9 @@ public class AllRepositoryTest {
                 .hasSize(9)
                 .anyMatch(student -> student.getEmail().equals("student9@codecool.com"));
 
+
+        schoolRepository.deleteAll();
+
         assertThat(studentRepository.findAll())
                 .hasSize(0);
     }
