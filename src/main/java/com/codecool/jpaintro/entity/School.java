@@ -1,12 +1,10 @@
 package com.codecool.jpaintro.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -23,5 +21,10 @@ public class School {
 
     @Enumerated(EnumType.STRING)
     private Location location;
+
+    @Singular
+    @OneToMany(mappedBy = "school", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @EqualsAndHashCode.Exclude
+    private Set<Student> students;
 
 }

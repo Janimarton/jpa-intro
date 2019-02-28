@@ -1,13 +1,11 @@
 package com.codecool.jpaintro.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -32,6 +30,13 @@ public class Student {
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private Address address;
+
+    @ElementCollection
+    @Singular
+    private List<String> phoneNumbers;
+
+    @ManyToOne
+    private School school;
 
     public void calculateAge() {
         if (birthDate != null) {
