@@ -212,5 +212,42 @@ public class AllRepositoryTest {
 
     }
 
+    @Test
+    public void updateAllToUSAByStudentName() {
+        Address address1 = Address.builder()
+                .country("Hungary")
+                .build();
+
+        Address address2 = Address.builder()
+                .country("Poland")
+                .build();
+
+        Address address3 = Address.builder()
+                .country("Germany")
+                .build();
+
+        Student student = Student.builder()
+                .name("temp")
+                .email("temp@codecool.com")
+                .address(address1)
+                .build();
+
+        studentRepository.save(student);
+        addressRepository.save(address2);
+        addressRepository.save(address3);
+
+        assertThat(addressRepository.findAll())
+                .hasSize(3)
+                .noneMatch(address -> address.getCountry().equals("USA"));
+
+        int updatedRows = addressRepository.updateAllToUSAByStudentName("temp");
+        assertThat(updatedRows).isEqualTo(1);
+
+        assertThat(addressRepository.findAll())
+                .hasSize(3)
+                .anyMatch(address -> address.getCountry().equals("USA"));
+
+    }
+
 
 }
